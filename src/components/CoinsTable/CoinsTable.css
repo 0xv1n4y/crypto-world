@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap");
+
+.row{
+    background-color:#16171a ;
+    cursor: pointer;
+
+  
+
+    font-family:Montserrat ;
+   
+}
+
+.row:hover {
+    background-color: #131111;
+
+}
+
+.pagination {
+    & .MuiPaginationItem-root {
+      color:chartreuse;
+    
+      
+      
+    }
+  }
+
+.pagination.MuiPaginationItem-root:hover{
+    background-color: gold;
+}
