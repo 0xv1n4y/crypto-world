@@ -2,10 +2,54 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { TrendingCoins, CoinList } from "./config/api";
 import { createTheme } from "@mui/material";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "./firebase";
+import { doc, onSnapshot } from "firebase/firestore";
 
 const Crypto = createContext();
 
 const CryptoContext = ({ children }) => {
+  //FireBase  Authentication
+  const [user, setUser] = useState(null);
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    type: "success",
+  });
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+
+  // watchList
+
+  const [watchlist, setWatchlist] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      const coinRef = doc(db, "watchlist", user.uid);
+
+      var unsubscribe = onSnapshot(coinRef, (coin) => {
+        if (coin.exists()) {
+          setWatchlist(coin.data().coins);
+        } else {
+          console.log("NO Coins in Watch List");
+        }
+      });
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [user]);
+
+  // Main
+
   const [currency, setCurrency] = useState("INR");
   const [symbol, setSymbol] = useState("₹");
   const [err, setErr] = useState(false);
@@ -31,44 +75,25 @@ const CryptoContext = ({ children }) => {
     },
   });
 
-  // Carousel
-  const [trending, setTrending] = useState([]); // To store Trending CoinsData
-  const [error, setError] = useState(null); // New state to handle errors
-  const [loading, setLoading] = useState(false);
-
-  const fetchTrendingCoins = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(TrendingCoins(currency));
-      setTrending(data);
-      setLoading(false);
-      setError(null); // Reset error state on success
-    } catch (error) {
-      setError(error); // Set the error state to the caught error
-    }
-  };
-
-  useEffect(() => {
-    fetchTrendingCoins();
-  }, [currency]);
-
   //CoinsTable
 
   const [coins, setCoins] = useState([]);
-  // const [loading, setLoading] = useState(false);
+
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const fetchCoins = async () => {
+
+
+ 
+
+
+  const fetchCoins = async ()=>{
     setLoading(true);
-    const { data } = await axios.get(CoinList(currency));
-    if (data) {
-      setCoins(data);
-      setLoading(false);
-    } else {
-      setErr(true);
-    }
-  };
+    const {data} = await axios.get(CoinList(currency));
+    setCoins(data)
+    setLoading(false)
+  }
 
   // When currency is changed DOM also update automatically
 
@@ -90,21 +115,22 @@ const CryptoContext = ({ children }) => {
     <Crypto.Provider
       value={{
         currency,
+        coins,
         symbol,
         setCurrency,
+        loading,
         err,
         setErr,
         numberWithCommas,
-        trending,
-        setTrending,
-        error,
-        setError,
-        fetchTrendingCoins,
         handleSearch,
         setSearch,
         page,
         setPage,
         darkTheam,
+        alert,
+        setAlert,
+        user,
+        watchlist,
       }}
     >
       {children}

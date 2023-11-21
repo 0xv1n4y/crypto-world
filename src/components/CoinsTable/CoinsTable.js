@@ -10,7 +10,6 @@ import {
   TextField,
   ThemeProvider,
   Typography,
- 
   Table,
   LinearProgress,
   TableRow,
@@ -22,10 +21,8 @@ const CoinsTable = () => {
   const navigate = useNavigate();
   const rowarray = ["Coin", "Price", "24h Change", "Market Cap"];
 
-
   const {
     symbol,
-    err,
     numberWithCommas,
     handleSearch,
     setSearch,
@@ -35,7 +32,6 @@ const CoinsTable = () => {
     darkTheam,
   } = CryptoState();
 
-  
   return (
     <ThemeProvider theme={darkTheam}>
       <Container style={{ textAlign: "center" }}>
@@ -77,7 +73,7 @@ const CoinsTable = () => {
               </TableHead>
 
               <TableBody>
-                {err ? (
+                {loading ? (
                   <h1>Somthing Went Wrong</h1>
                 ) : (
                   handleSearch()
