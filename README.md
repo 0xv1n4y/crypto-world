@@ -30,4 +30,4 @@ This web application fetches live cryptocurrency prices in both rupees and US do
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/crypto-live-data-app.git
+   git clone https://github.com/your-username/crypto-world.git
