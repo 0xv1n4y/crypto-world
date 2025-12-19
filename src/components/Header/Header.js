@@ -12,12 +12,13 @@ import {
   createTheme,
 } from "@mui/material";
 import { CryptoState } from "../../CryptoContext";
-
+import AuthModal from "../Authentaction/AuthModel/AuthModel";
+import UserSidebar from "../Authentaction/UserSidebar/UserSidebar";
 
 const Header = () => {
   const navigate = useNavigate();
 
-  const { currency, setCurrency, symbol } = CryptoState();
+  const { currency, setCurrency, symbol, user } = CryptoState();
 
   const darkTheam = createTheme({
     palette: {
@@ -38,8 +39,9 @@ const Header = () => {
           <Toolbar>
             <Typography
               className="title"
+              style={{fontWeight:"bold"}}
               onClick={() => navigate("/")}
-              variant="h6"
+              
             >
               Crypto Hunter
             </Typography>
@@ -61,6 +63,7 @@ const Header = () => {
               <br></br>
               <MenuItem value={"INR"}>INR</MenuItem>
             </Select>
+            {user ? <UserSidebar /> : <AuthModal />}
           </Toolbar>
         </Container>
       </AppBar>

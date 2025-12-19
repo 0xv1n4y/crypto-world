@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Inline+One&family=Bebas+Neue&family=Merriweather:wght@300&family=Montserrat:wght@300;400;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Inline+One&family=Bebas+Neue&family=Merriweather:wght@300&family=Montserrat:wght@300;400;800&family=Oswald:wght@700&display=swap');
 .title{
     flex:1;
-    color:tomato;
-    font-family:"Assistant";
-    font-size: 80px;
-   
-    font-weight:bold;
+    color:green;
+    font-family:"Oswald";
+    font-size: 40px;
+  
     cursor: pointer;
 }

@@ -14,7 +14,8 @@ a {
 
 .main{
   background-color: #14161a;
-  color:#DDAD75;
+  /* color:#DDAD75; */
+  color:white;
   min-height:100vh;
 
 }
